@@ -32,6 +32,10 @@ create table pedidos(
  
  -- realizando um mudança na tabela pedidos
  alter table pedidos add column id_cliente int;
+ -- realizando mudança devido aos cupons de desconto
+ alter table pedidos add column id_cupom int;
+ alter table pedidos add constraint fk_cupom
+	foreign key (id_cupom) references Cupons(id_cupom);
     
     
     
@@ -78,4 +82,40 @@ left join
 where
 	p.id_pedido is null;
     
-select * from pedidos
+
+
+-- Cupons de Desconto
+
+create table cupons(
+	id_cupom int auto_increment primary key,
+    codigo varchar(50) not null unique,
+    tipo_desconto  enum ('percentual') not null,
+    valor_desconto decimal(10,2) not null,
+    data_validade date not null,
+    quantidade_uso int default 0,
+    limite_uso int not null,
+    ativo boolean default true
+    );
+    
+
+--  adicionando o cupom a um pedido pendente
+update pedidos
+set id_cupom = (select id_cupom from cupons where codigo = ('BEMVINDO10'))
+where id_pedido = 2;
+
+-- Vendo o desconto aplicado ao pedido
+select 
+	p.id_Pedido,
+    p.valor_total as valor_original,
+    c.codigo,
+    c.valor_desconto as percentual_desconto,
+    p.valor_total - (p.valor_total * c.valor_desconto /100) as valor_final
+from pedidos p
+join cupons c on p.id_cupom = c.id_cupom
+where p.id_Pedido = 2;
+
+-- permitindo usar o cupom enquanto a quantidade já usada for menor que o limite total
+update cupons
+set quantidade_uso = quantidade_uso + 1
+where codigo = 'BEMVINDO10'
+and quantidade_uso < limite_uso;
