@@ -5,10 +5,16 @@
 	Id_Cliente int auto_increment primary key,
     nome varchar(100) not null,
     email varchar(100) not null,
-    data_cadastro timestamp default current_timestamp    
+    data_cadastro timestamp default current_timestamp
     -- default diz se o usuario nao adicionar nenhum dado, voce deve preencher automaticamente
     -- current diz pegue o horario e data exata da aplicação
  );
+ -- Adicionando regiao na tabela clientes
+alter table clientes add column regiao varchar(100);
+ -- Adicionando chave estrangeira
+ alter table clientes add constraint Fk_cliente
+	foreign key (id_cliente) references clientes(id_cliente);
+select * from clientes;
  
  
 create table Produtos(
@@ -29,13 +35,6 @@ create table pedidos(
     -- digo ao banco que a tabela id produto pertence a tabela produto
     foreign key (id_Produto) references Produtos(id_Produto)
     );
- 
- -- realizando um mudança na tabela pedidos
- alter table pedidos add column id_cliente int;
- -- realizando mudança devido aos cupons de desconto
- alter table pedidos add column id_cupom int;
- alter table pedidos add constraint fk_cupom
-	foreign key (id_cupom) references Cupons(id_cupom);
     
     
     
@@ -85,7 +84,6 @@ where
 
 
 -- Cupons de Desconto
-
 create table cupons(
 	id_cupom int auto_increment primary key,
     codigo varchar(50) not null unique,
@@ -119,3 +117,7 @@ update cupons
 set quantidade_uso = quantidade_uso + 1
 where codigo = 'BEMVINDO10'
 and quantidade_uso < limite_uso;
+
+-- Consulta de clientes por região
+select * from clientes 
+where regiao = 'Centro-Oeste';
