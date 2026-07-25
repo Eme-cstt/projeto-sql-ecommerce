@@ -131,3 +131,20 @@ and quantidade_uso < limite_uso;
 -- Consulta de clientes por região
 select * from clientes 
 where regiao = 'Centro-Oeste';
+
+
+-- adicionando um relatorio ao meu banco de dados
+create view vs_relatorio_clientes as
+select 
+	id_cliente as id,
+    nome as nome,
+    email as email,
+    regiao as regiao,
+    CONCAT(rua, ', ', numero, IFNULL(CONCAT(' - ', complemento), ''), ' - ', bairro) AS Logradouro,
+    cidade AS Cidade,
+    estado AS UF,
+    cep AS CEP
+from clientes;
+
+select * from vs_relatorio_clientes;
+
