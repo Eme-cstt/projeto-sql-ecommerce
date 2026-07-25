@@ -145,6 +145,26 @@ select
     estado AS UF,
     cep AS CEP
 from clientes;
-
+-- acesar o relatorio
 select * from vs_relatorio_clientes;
 
+
+
+-- criando perfins em busca de segurança ao meu banco de dados
+
+-- criando usuario admin com senha e acesso total ao sistema
+create user 'admin_usuario'@'localhost' identified by 'senhaadmin123!';
+-- concedendo permissões totais ao usuário
+grant all privileges on projeto_sql_ecommerce.*to 'admin_usuario'@'localhost' with grant option;
+
+-- criando perfil de gerente 
+create user 'gerente_usuario'@'localhost' identified by 'gerente123!';
+-- concedendo permissões ao usuario para consultar, inserir, alterar e deletar registros
+grant select, insert, update, delete on projeto_sql_ecommerce.* to'gerente_usuario'@'localhost';
+
+-- criando perfil de atendente
+create user 'atendente_usuario'@'localhost' identified by 'atendente123!';
+-- dando permissoes de leitura ao usuario 
+grant select on projeto_sql_ecommerce.* to 'atendente_usuario'@'localhost';
+-- dando permissão para gerenciar o status do pedido do usuario
+grant update (status) on projeto_sql_ecommerce.pedidos to 'atendente_usuario'@'localhost';
