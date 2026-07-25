@@ -15,6 +15,16 @@ alter table clientes add column regiao varchar(100);
  alter table clientes add constraint Fk_cliente
 	foreign key (id_cliente) references clientes(id_cliente);
 select * from clientes;
+-- Adicionando enderecos na tabela clientes
+alter table clientes
+	add column rua varchar(150),
+    add column numero varchar(20),
+    add column complemento varchar(100),
+    add column bairro varchar(100),
+    add column cidade varchar(100),
+    add column estado char(2),
+	add column cep varchar(10);
+    
  
  
 create table Produtos(
