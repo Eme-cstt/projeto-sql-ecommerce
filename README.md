@@ -17,7 +17,7 @@ Este projeto consiste na modelagem, manipulação e administração completa de 
 
 ---
 
-## 🗄️ Estrutura e Modelagem do Banco de Dados
+##  Estrutura e Modelagem do Banco de Dados
 
 O banco de dados `projeto_sql_ecommerce` é composto por 5 tabelas principais e 1 visão (View):
 
