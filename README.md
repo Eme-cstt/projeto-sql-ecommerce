@@ -1,37 +1,41 @@
-Projeto E-commerce SQL
-Este projeto consiste na modelagem e implementação de um banco de dados relacional para um sistema de E-commerce. O objetivo é gerenciar informações essenciais de uma loja virtual, como o cadastro de clientes, controle de estoque de produtos, registro de pedidos e o detalhamento dos itens comprados, além de fornecer consultas analíticas para o negócio.
+#  Projeto E-commerce SQL - Banco de Dados Relacional
 
-Modelagem do Banco de Dados
-O banco de dados é composto por 4 tabelas principais, estruturadas da seguinte forma:
+> ** AVISO IMPORTANTE (ISENÇÃO DE RESPONSABILIDADE)** > Este repositório foi desenvolvido **100% para fins acadêmicos e de estudo pessoal**.  
+> O código, a modelagem, os scripts e as credenciais fornecidas foram criados para aprendizado do uso da linguagem SQL e **NÃO devem, sob nenhuma hipótese, ser utilizados ou implantados em ambiente de produção**.
 
-Clientes (Clientes): Armazena os dados cadastrais dos usuários da plataforma, registrando automaticamente a data e hora em que a conta foi criada.
+---
 
-Produtos (Produtos): Contém as informações do catálogo de itens da loja, incluindo nome, categoria, preço unitário e a quantidade disponível em estoque.
+##  Sobre o Projeto
 
-Pedidos (pedidos): Registra as vendas realizadas, vinculando o cliente que comprou, a data da transação, o status do pedido (ex: pendente, pago, enviado) e o valor total gasto.
+Este projeto consiste na modelagem, manipulação e administração completa de um banco de dados relacional para um sistema de **E-commerce**. O objetivo é simular todas as etapas de um banco de dados real de loja virtual:
+- Cadastro e gestão de clientes com **endereço completo**;
+- Controle de catálogo de **produtos e estoque**;
+- Processamento de **pedidos e itens** comprados;
+- Aplicação de **cupons de desconto**;
+- Criação de **Relatórios/Views** para exportação de dados;
+- Implementação de **Políticas de Segurança e Acesso (DCL)** com múltiplos níveis de permissão.
 
-Itens dos Pedidos (itens_pedidos): Tabela de relacionamento que detalha quais produtos estão incluídos em cada pedido, controlando a quantidade de itens e o preço unitário praticado no momento da compra.
+---
 
- Estrutura e Scripts SQL
-O script cria o banco de dados projeto_sql_ecommerce e define as tabelas com restrições de integridade (chaves primárias e estrangeiras) para garantir que os dados permaneçam consistentes.
+## 🗄️ Estrutura e Modelagem do Banco de Dados
 
-Destaques Técnicos da Modelagem:
-Auto-incremento: Utilizado nas chaves primárias (Id_Cliente, id_Produto, id_Pedido, id_itens) para garantir identificadores únicos automáticos.
+O banco de dados `projeto_sql_ecommerce` é composto por 5 tabelas principais e 1 visão (View):
 
-Campos Temporais: Uso de timestamp default current_timestamp para capturar o momento exato das ações sem necessidade de inserção manual.
+1. **`clientes`**: Registra os dados cadastrais (nome, e-mail, data de cadastro), a região e o endereço completo (rua, número, complemento, bairro, cidade, estado e CEP).
+2. **`produtos`**: Armazena o catálogo de itens da loja, categoria, preço unitário e a quantidade em estoque.
+3. **`pedidos`**: Registra as vendas realizadas, incluindo a data da transação, o status do pedido, o valor total e o vínculo com cupom de desconto.
+4. **`itens_pedidos`**: Tabela associativa que detalha quais produtos pertencem a cada pedido, registrando quantidade e preço unitário praticado.
+5. **`cupons`**: Armazena cupons promocionais com regras de validade, limite de uso, tipo de desconto e status ativo.
+6. **`vs_relatorio_clientes` (View)**: Visão consolidada para geração e exportação de relatórios de clientes com logradouro formatado.
 
-Integridade Referencial: Uso de FOREIGN KEY para garantir, por exemplo, que não existam itens de pedido sem um produto ou pedido válido por trás.
+---
 
-Evolução do Banco: Inclusão de um comando ALTER TABLE para associar corretamente a tabela de pedidos à tabela de clientes.
+## 🔐 Controle de Segurança e Perfis de Acesso (DCL)
 
-Consultas Analíticas (Queries)
-O projeto também conta com consultas SQL avançadas para extrair insights importantes sobre o comportamento do e-commerce:
+Para garantir a segurança do banco de dados, foram configurados 3 perfis de usuários com privilégios limitados:
 
-1. Filtro de Clientes por Período
-Busca o nome e a data de cadastro dos clientes que se registraram até uma determinada data específica, utilizando uma subquery condicional (EXISTS) para validação de intervalo.
-
-2. Top 3 Produtos Mais Vendidos
-Uma query indispensável para o negócio. Utiliza o cruzamento de tabelas (INNER JOIN), agrupamento de dados (GROUP BY) e funções de agregação (SUM) para listar os três produtos com maior volume de unidades vendidas, ordenados do maior para o menor.
-
-3. Clientes Inativos (Sem Compras)
-Identifica possíveis oportunidades de marketing descobrindo quais clientes se cadastraram no sistema, mas ainda não realizaram nenhuma compra. Isso é feito de forma eficiente utilizando um LEFT JOIN e filtrando os resultados onde o ID do pedido é nulo (is null).
+| Usuário | Host | Senha Padrão | Nível de Permissão / Privilégios |
+| :--- | :--- | :--- | :--- |
+| **`admin_usuario`** | `localhost` | `senhaadmin123!` | **Acesso Total (`ALL PRIVILEGES`)** com permissão de repasse (`WITH GRANT OPTION`). |
+| **`gerente_usuario`** | `localhost` | `gerente123!` | **Manipulação de Dados (`SELECT`, `INSERT`, `UPDATE`, `DELETE`)** em todas as tabelas. |
+| **`atendente_usuario`** | `localhost` | `atendente123!` | **Leitura (`SELECT`)** em todo o banco e **atualização restrita (`UPDATE`)** apenas na coluna `status` da tabela `pedidos`. |
