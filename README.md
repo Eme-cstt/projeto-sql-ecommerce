@@ -30,7 +30,7 @@ O banco de dados `projeto_sql_ecommerce` é composto por 5 tabelas principais e 
 
 ---
 
-## 🔐 Controle de Segurança e Perfis de Acesso (DCL)
+##  Controle de Segurança e Perfis de Acesso (DCL)
 
 Para garantir a segurança do banco de dados, foram configurados 3 perfis de usuários com privilégios limitados:
 
