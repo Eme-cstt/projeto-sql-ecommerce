@@ -152,3 +152,35 @@ WHERE id_cliente = 34;
 UPDATE clientes SET 
     regiao = 'Norte', rua = 'Avenida Getúlio Vargas', numero = '150', complemento = NULL, bairro = 'Centro', cidade = 'Rio Branco', estado = 'AC', cep = '69900-000'
 WHERE id_cliente = 35;
+
+
+
+-- testando o insert com avaliações
+-- adicionando novos clientes
+INSERT INTO Clientes (nome, email, regiao) VALUES
+('Rafael Nogueira', 'rafael.nogueira@email.com', 'Sudeste'),
+('Juliana Castro', 'juliana.castro@email.com', 'Sul'),
+('Pedro Henrique', 'pedro.henrique@email.com', 'Nordeste'),
+('Camila Ferreira', 'camila.ferreira@email.com', 'Centro-Oeste'),
+('Thiago Almeida', 'thiago.almeida@email.com', 'Norte');
+-- criando pedidos para os novos clientes
+insert into pedidos (id_cliente, id_Produto, status, valor_total) values
+(36, 1, 'Entregue', 299.90),
+(37, 2, 'Entregue', 149.90),
+(38, 3, 'Entregue', 189.90),
+(39, 8, 'Entregue', 250.00),
+(40, 5, 'Entregue', 99.90);
+-- inserindo os ids dos pedidos corretos
+insert into itens_pedidos (id_Pedido, id_Produto, quantidade, preco_unitario) values
+(21, 1, 1, 299.90),
+(22, 2, 1, 149.90),
+(23, 3, 1, 189.90),
+(24, 8, 1, 250.00),
+(25, 5, 1, 99.90);
+-- inserindo as avaliações aos pedidos novos
+insert into avaliacoes (cliente_id, id_produto, pedido_id, nota, comentario) values
+(36, 1, 21, 5, 'Ótimo tênis, recomendo demais'),
+(37, 2, 22, 4, 'Som muito bom, gostei do produto'),
+(38, 3, 23, 3, 'Mochila boa, mas achei um pouco cara'),
+(39, 8, 24, 5, 'Produto de excelente qualidade'),
+(40, 5, 25, 2, 'Não gostei, esperava mais');
