@@ -178,29 +178,36 @@ create table avaliacoes(
     nota tinyint not null,
     comentario varchar(500),
     data_avaliacao datetime default current_timestamp,
+    ativo boolean default true,
+    data_exclusao datetime null,
+
 	-- garante que o cliente existe 
 	constraint fk_avaliacao_cliente
 		foreign key (cliente_id) references clientes(id_cliente)
-		  on delete restrict,
+		on delete restrict,
 	-- garante que o produto existe
 	constraint fk_avaliacao_produto
-		foreign key (produto_id) references produtos (id_produtos)
+		foreign key (id_produto) references produtos (id_produto)
 		on delete restrict,
-	 -- garante que o pedido existe
+	-- garante que o pedido existe
 	constraint fk_avaliacao_pedido
 		foreign key (pedido_id) references pedidos (id_pedido)
-		 on delete restrict,
+		on delete restrict,
 	-- garante que a nota esteja entre 1 e 5
 	constraint nota_valida
 		check (nota between 1 and 5),
 	-- garante que o produto so e avaliado uma unica vez
 	constraint avaliacoes_unica
 		unique (cliente_id, id_produto)			
-);
+);   
 
-	-- garante que o usuario possa atualizar suas avaliacoes
-    update avaliacoes
-    set nota = 5,
-		comentario = 'produto show de bola',
-        data_avaliacao = now()
-	where avaliacao_id = 15 and cliente_id = 5;
+
+-- testando se deu certo as avaliacoes
+select 
+    c.nome as cliente,
+    p.nome as produto,
+    a.nota,
+    a.comentario
+from avaliacoes a
+join clientes c on a.cliente_id = c.id_cliente
+join produtos p on a.id_produto = p.id_produto;
