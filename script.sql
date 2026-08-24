@@ -168,3 +168,34 @@ create user 'atendente_usuario'@'localhost' identified by 'atendente123!';
 grant select on projeto_sql_ecommerce.* to 'atendente_usuario'@'localhost';
 -- dando permissão para gerenciar o status do pedido do usuario
 grant update (status) on projeto_sql_ecommerce.pedidos to 'atendente_usuario'@'localhost';
+
+-- adicionando avaliações aos produtos
+create table avaliacoes(
+	avaliacao_id int auto_increment primary key,
+    cliente_id int not null,
+    id_produto int not null,
+    pedido_id int not null,
+    nota tinyint not null,
+    comentario varchar(500),
+    data_avaliacao datetime default current_timestamp,
+	-- garante que o cliente existe 
+	constraint fk_avaliacao_cliente
+		foreign key (cliente_id) references clientes(id_cliente)
+		  on delete restrict,
+	-- garante que o produto existe
+	constraint fk_avaliacao_produto
+		foreign key (produto_id) references produtos (id_produtos)
+		on delete restrict,
+	 -- garante que o pedido existe
+	constraint fk_avaliacao_pedido
+		foreign key (pedido_id) references pedidos (id_pedido)
+		 on delete restrict,
+	-- garante que a nota esteja entre 1 e 5
+	constraint nota_valida
+		check (nota between 1 and 5),
+	-- garante que o produto so e avaliado uma unica vez
+	constraint avaliacoes_unica
+		unique (cliente_id, id_produto)			
+);
+
+
