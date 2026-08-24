@@ -198,4 +198,9 @@ create table avaliacoes(
 		unique (cliente_id, id_produto)			
 );
 
-
+	-- garante que o usuario possa atualizar suas avaliacoes
+    update avaliacoes
+    set nota = 5,
+		comentario = 'produto show de bola',
+        data_avaliacao = now()
+	where avaliacao_id = 15 and cliente_id = 5;
