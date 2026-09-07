@@ -1,6 +1,7 @@
 #  Projeto E-commerce SQL - Banco de Dados Relacional
 
-> ** AVISO IMPORTANTE (ISENÇÃO DE RESPONSABILIDADE)** > Este repositório foi desenvolvido **100% para fins acadêmicos e de estudo pessoal**.  
+> ** AVISO IMPORTANTE (ISENÇÃO DE RESPONSABILIDADE)**
+> Este repositório foi desenvolvido **100% para fins acadêmicos e de estudo pessoal**.
 > O código, a modelagem, os scripts e as credenciais fornecidas foram criados para aprendizado do uso da linguagem SQL e **NÃO devem, sob nenhuma hipótese, ser utilizados ou implantados em ambiente de produção**.
 
 ---
@@ -8,12 +9,34 @@
 ##  Sobre o Projeto
 
 Este projeto consiste na modelagem, manipulação e administração completa de um banco de dados relacional para um sistema de **E-commerce**. O objetivo é simular todas as etapas de um banco de dados real de loja virtual:
+
 - Cadastro e gestão de clientes com **endereço completo**;
 - Controle de catálogo de **produtos e estoque**;
 - Processamento de **pedidos e itens** comprados;
 - Aplicação de **cupons de desconto**;
 - Criação de **Relatórios/Views** para exportação de dados;
 - Implementação de **Políticas de Segurança e Acesso (DCL)** com múltiplos níveis de permissão.
+- **Interface gráfica web** para visualização e manipulação real dos dados do banco.
+
+---
+
+##  Atualização — Interface Web (Django + MySQL)
+
+O projeto agora conta com uma **interface web funcional**, desenvolvida em **Python (Django)**, conectada diretamente ao banco `projeto_sql_ecommerce`. Essa camada permite interagir com os dados reais do banco através do navegador, sem precisar usar o MySQL Workbench ou escrever SQL manualmente.
+
+**O que já está implementado:**
+
+- **Conexão real com o MySQL**: a aplicação Django se conecta diretamente ao banco `projeto_sql_ecommerce`, lendo e gravando dados de verdade (sem duplicação ou banco intermediário).
+- **CRUD completo**: é possível **visualizar, cadastrar, editar e excluir** registros de todas as 6 tabelas do sistema (`clientes`, `produtos`, `pedidos`, `itens_pedidos`, `cupons`, `avaliacoes`) diretamente pela interface web.
+- **Login de usuários**: sistema de autenticação para acesso à interface administrativa.
+- **Modelagem espelhada via ORM**: as tabelas do MySQL foram importadas automaticamente para o Django através do comando `inspectdb`, preservando toda a estrutura, tipos de dados e relacionamentos (chaves estrangeiras) já definidos no banco original.
+
+**Stack utilizada:**
+- Python 3.14
+- Django 6.0
+- MySQL 8.0 (via `mysqlclient`)
+
+> Próximos passos planejados: páginas e relatórios personalizados com gráficos, e diferenciação de permissões de acesso (admin / gerente / atendente) dentro da própria interface.
 
 ---
 
